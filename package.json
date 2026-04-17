@@ -4,6 +4,15 @@
   "description": "MCP server for Love2D API documentation",
   "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "love2d-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "data/",
+    "scripts/postinstall.mjs",
+    "README.md"
+  ],
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
@@ -11,6 +20,7 @@
     "sync-data": "node -e \"const fs=require('fs'); fs.cpSync('vendor/love2d-docs-search/dist', 'data', {recursive:true, filter:(s)=>s.endsWith('.json')||!s.includes('.')}); console.log('Data synced.')\"",
     "prebuild": "npm run sync-data",
     "build": "tsc",
+    "postbuild": "chmod +x dist/index.js",
     "inspect": "mcp-inspector node dist/index.js",
     "clean": "rm -rf dist"
   },
