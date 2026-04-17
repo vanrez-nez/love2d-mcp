@@ -2,6 +2,14 @@
   "name": "love2d-mcp-server",
   "version": "1.0.1",
   "description": "MCP server for Love2D API documentation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vanrez-nez/love2d-mcp.git"
+  },
+  "homepage": "https://github.com/vanrez-nez/love2d-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/vanrez-nez/love2d-mcp/issues"
+  },
   "type": "module",
   "main": "dist/index.js",
   "bin": {
