@@ -33,20 +33,17 @@ URI template `docs://love2d/{module}/{symbol}` — browse documentation pages di
 
 - Node.js **≥ 18**
 
-### Clone and install
-
 ```bash
-git clone --recurse-submodules https://github.com/vanrez-nez/love2d-mcp.git
-cd love2d-mcp
-npm install   # also runs postinstall: tries to fetch latest docs, falls back to bundle
-npm run build
+npm install -g love2d-mcp-server
 ```
 
-> `postinstall` will attempt to download the latest docs DB from GitHub. If you are offline it exits cleanly and uses the bundled snapshot.
+On install, the package will attempt to fetch the latest docs from GitHub. If you are offline it exits cleanly and uses the bundled snapshot.
 
 ---
 
 ## Configure your AI client
+
+The recommended setup uses `npx` so no global install is needed and the package always runs the latest published version.
 
 ### Claude Desktop
 
@@ -56,8 +53,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "love2d": {
-      "command": "node",
-      "args": ["/absolute/path/to/love2d-mcp/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "love2d-mcp-server"]
     }
   }
 }
@@ -73,8 +70,8 @@ Add to `.vscode/mcp.json` in your project, or to your user `settings.json`:
     "servers": {
       "love2d": {
         "type": "stdio",
-        "command": "node",
-        "args": ["/absolute/path/to/love2d-mcp/dist/index.js"]
+        "command": "npx",
+        "args": ["-y", "love2d-mcp-server"]
       }
     }
   }
@@ -89,8 +86,8 @@ Add to `~/.cursor/mcp.json`:
 {
   "mcpServers": {
     "love2d": {
-      "command": "node",
-      "args": ["/absolute/path/to/love2d-mcp/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "love2d-mcp-server"]
     }
   }
 }
