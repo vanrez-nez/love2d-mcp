@@ -1,6 +1,6 @@
 {
   "name": "love2d-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Love2D API documentation",
   "type": "module",
   "main": "dist/index.js",
