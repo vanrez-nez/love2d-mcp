@@ -1,0 +1,3 @@
+[submodule "vendor/love2d-docs-search"]
+	path = vendor/love2d-docs-search
+	url = https://github.com/vanrez-nez/love2d-docs-search.git

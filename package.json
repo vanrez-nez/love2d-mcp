@@ -1,0 +1,31 @@
+{
+  "name": "love2d-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Love2D API documentation",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "postinstall": "node scripts/postinstall.mjs",
+    "sync-data": "node -e \"const fs=require('fs'); fs.cpSync('vendor/love2d-docs-search/dist', 'data', {recursive:true, filter:(s)=>s.endsWith('.json')||!s.includes('.')}); console.log('Data synced.')\"",
+    "prebuild": "npm run sync-data",
+    "build": "tsc",
+    "inspect": "mcp-inspector node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "minisearch": "^7.2.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.21.2",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

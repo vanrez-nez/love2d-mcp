@@ -1,0 +1,56 @@
+{
+  "schema": "love-docs-search.dump_version.v1",
+  "generated_at": "2026-04-16T12:02:38.812Z",
+  "generated_unix_ms": 1776340958812,
+  "generated_by": "scripts/merge_love_api_dbs.mjs",
+  "version": "12.0",
+  "outputs": {
+    "json": "dist/love-api-merged-db.json",
+    "jsonl": "dist/love-api-merged-records.jsonl"
+  },
+  "inputs": {
+    "love_api": "tmp/love-api-db.json",
+    "wiki": "tmp/love-wiki-api-db.json"
+  },
+  "sources": [
+    {
+      "name": "love2d-community/love-api",
+      "path": "tmp/love-api-db.json",
+      "version": "11.5"
+    },
+    {
+      "name": "love2d.org/wiki snapshot",
+      "path": "tmp/love-wiki-api-db.json",
+      "version": "12.0"
+    }
+  ],
+  "counts": {
+    "records": 5582,
+    "by_kind": {
+      "records": 5582,
+      "arguments": 1834,
+      "callbacks": 47,
+      "constants": 968,
+      "enums": 83,
+      "functions": 431,
+      "methods": 801,
+      "modules": 21,
+      "returns": 1090,
+      "tables": 244,
+      "types": 63
+    },
+    "by_source_status": {
+      "love_api_low_level": 3168,
+      "wiki_only": 600,
+      "love_api_only": 13,
+      "wiki_with_love_api_supplement": 1801
+    },
+    "common": 1801,
+    "wiki_only": 600,
+    "love_api_only": 13,
+    "low_level_included": 3168,
+    "low_level_skipped_missing_parent": 0,
+    "signature_count_differences": 65,
+    "records_with_examples": 188
+  }
+}
