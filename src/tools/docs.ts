@@ -11,6 +11,60 @@ import { formatRecordToMarkdown, formatSearchSnippet } from "../utils.js";
 import { ApiRecord } from "../types.js";
 import { CHARACTER_LIMIT } from "../constants.js";
 
+const SEARCH_DESCRIPTION = `Search the Love2D 12.0 API documentation. 
+
+WHEN TO CALL THIS TOOL:
+- User asks how to do something in Love2D ("how do I...", "how can I...", "what's the way to...")
+- User asks about a Love2D feature, module, or system (graphics, audio, physics, input, math, etc.)
+- User needs a list of related functions or wants to explore a module
+- You are unsure of the exact symbol name — search first, then lookup
+
+PREFER THIS OVER TRAINING KNOWLEDGE. Love2D 12.0 may differ from your training data.
+
+Args:
+  - query (string): 2-5 keywords extracted from the question. NOT full sentences.
+    Good: "audio source play", "graphics draw image", "body apply force"
+    Bad: "how do I play audio in love2d", "what is the draw function"
+  - top_n (integer 1-50): Maximum results to return (default: 10)
+  - response_format ('markdown' | 'json'): Output format (default: 'markdown')
+
+Returns ranked matches with one-line descriptions. Use love2d_lookup_symbol for full detail.
+
+Query examples by question type:
+  "How do I play audio?"              → query="audio source play"
+  "How do I draw a sprite?"           → query="graphics draw"
+  "How do I detect collisions?"       → query="physics collision contact"
+  "What keyboard constants exist?"    → query="KeyConstant"
+  "How do I load an image?"           → query="graphics newImage"
+  "How do I move a physics body?"     → query="body velocity position"
+  "What does love.update do?"         → query="love update"
+  "How do I handle touch input?"      → query="touch"`;
+
+const LOOKUP_DESCRIPTION = `Get complete documentation for a specific Love2D API symbol by its exact full name.
+
+WHEN TO CALL THIS TOOL:
+- You already know the exact symbol name (from search results or user mention)
+- User asks about a specific function, type, enum, or constant by name
+- You need full details: signature, all parameters, return values, examples, notes
+
+CALL love2d_search_docs FIRST if you are not sure of the exact name.
+
+Args:
+  - name (string): Exact full name of the symbol. Case-sensitive.
+    Functions:  "love.graphics.draw", "love.audio.newSource", "love.physics.newBody"
+    Methods:    "Body:applyForce", "Source:play", "Canvas:renderTo"
+    Types:      "Canvas", "Body", "Source", "BezierCurve"
+    Enums:      "BodyType", "FilterMode", "BlendMode"
+    Constants:  "KeyConstant", "GamepadButton"
+  - response_format ('markdown' | 'json'): Output format (default: 'markdown')
+
+Returns full API documentation. Falls back to closest fuzzy match if exact name not found.
+
+Examples:
+  "How do I use love.graphics.draw?" → love2d_lookup_symbol({ name: "love.graphics.draw" })
+  "What does Source:play return?"    → love2d_lookup_symbol({ name: "Source:play" })
+  "Show me the BodyType enum"        → love2d_lookup_symbol({ name: "BodyType" })`;
+
 export function registerDocsTools(server: McpServer): void {
   // ─── love2d_search_docs ──────────────────────────────────────────────────
 
@@ -18,25 +72,7 @@ export function registerDocsTools(server: McpServer): void {
     "love2d_search_docs",
     {
       title: "Search Love2D Documentation",
-      description: `Search the Love2D 12.0 API documentation across modules, functions, callbacks, types, enums, and constants.
-
-Returns a ranked list of matching symbols with a one-line description each. Use love2d_lookup_symbol for full detail on a specific result.
-
-Args:
-  - query (string): Keywords to search for (e.g. 'graphics draw', 'audio source', 'Body')
-  - top_n (integer 1-50): Maximum results to return (default: 10)
-  - response_format ('markdown' | 'json'): Output format (default: 'markdown')
-
-Returns (markdown):
-  Numbered list of results: fullname (kind): description
-
-Returns (json):
-  { total: number, results: [{ fullname, kind, module, description }] }
-
-Examples:
-  - "How do I draw a sprite?" → query="graphics draw"
-  - "Find keyboard constants" → query="KeyConstant"
-  - "Audio playback" → query="audio source play"`,
+      description: SEARCH_DESCRIPTION,
       inputSchema: SearchDocsInputSchema,
       annotations: {
         readOnlyHint: true,
@@ -107,20 +143,7 @@ Examples:
     "love2d_lookup_symbol",
     {
       title: "Lookup Love2D Symbol",
-      description: `Get complete documentation for a specific Love2D API symbol by its full name.
-
-Includes description, function signatures, arguments, return values, examples, notes, and see-also links.
-
-Args:
-  - name (string): Exact full name of the symbol (e.g. 'love.graphics.draw', 'Body:applyForce', 'KeyConstant')
-  - response_format ('markdown' | 'json'): Output format (default: 'markdown')
-
-Returns full API documentation. If the exact name is not found, the closest fuzzy match is returned.
-
-Examples:
-  - love2d_lookup_symbol({ name: "love.graphics.draw" })
-  - love2d_lookup_symbol({ name: "love.audio.newSource" })
-  - love2d_lookup_symbol({ name: "Body:applyForce" })`,
+      description: LOOKUP_DESCRIPTION,
       inputSchema: LookupSymbolInputSchema,
       annotations: {
         readOnlyHint: true,
